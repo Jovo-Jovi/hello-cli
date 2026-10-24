@@ -11,28 +11,31 @@ Every agent run of this project, totalled from the records in `docs/usage/`: one
   supervisor's second opinions, and a change request answered without a plan. Each shows its usage on its own run
   page or comment.
 
-Runs: 1 · Not reported: 0 · Last run: 2026-10-24T22:04:34.809Z
+Runs: 3 · Not reported: 0 · Last run: 2026-10-24T22:39:29.933Z
 
 ## Total
 
 | Runs | Input | Output | Cache read | Cache write | Cost (USD) |
 |---|---|---|---|---|---|
-| 1 | 212,976 | 85,924 | 4,518,784 | 0 | — |
+| 3 | 388,996 | 141,106 | 8,808,704 | 0 | — |
 
 ## By model
 
 | Tool | Model | Runs | Input | Output | Cache read | Cache write | Cost (USD) |
 |---|---|---|---|---|---|---|---|
-| cursor | grok-4.7-xhigh-fast | 1 | 212,976 | 85,924 | 4,518,784 | 0 | — |
+| cursor | grok-4.7-xhigh-fast | 3 | 388,996 | 141,106 | 8,808,704 | 0 | — |
 
 ## By stage
 
 | Stage | Runs | Input | Output | Cache read | Cache write | Cost (USD) |
 |---|---|---|---|---|---|---|
 | blueprint | 1 | 212,976 | 85,924 | 4,518,784 | 0 | — |
+| builder | 1 | 173,327 | 54,003 | 3,907,200 | 0 | — |
+| reviewer | 1 | 2,693 | 1,179 | 382,720 | 0 | — |
 
 ## By task
 
 | Task | Runs | Input | Output | Cache read | Cache write | Cost (USD) |
 |---|---|---|---|---|---|---|
 | blueprint | 1 | 212,976 | 85,924 | 4,518,784 | 0 | — |
+| T01 | 2 | 176,020 | 55,182 | 4,289,920 | 0 | — |
