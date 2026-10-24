@@ -60,6 +60,7 @@ Thumbs.db
 
 # testing
 /coverage
+.vitest/
 
 # next.js
 /.next/
