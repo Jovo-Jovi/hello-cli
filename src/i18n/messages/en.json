@@ -1,1 +1,5 @@
-{}
+{
+  "greeting": "Hello, {name}.",
+  "nameMissing": "A name is required.",
+  "nameRejected": "The name is not valid."
+}
