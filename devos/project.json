@@ -1,0 +1,60 @@
+{
+  "$comment": "This file is yours; devos.config.json is generated from devos/engine.defaults.json and this file; edit here, then run node scripts/devos/config.mjs --write.",
+  "project": "HELLO-CLI",
+  "scenario": "new",
+  "screens": {
+    "pages": []
+  },
+  "surfaces": {
+    "builder": {
+      "deny_extra": [
+        "docs/DEVOS_FIT.md"
+      ]
+    }
+  },
+  "reviewer": {
+    "deep_paths_extra": []
+  },
+  "agents": {
+    "reviewer": {
+      "id": "cursor-grok-4-7-xhigh-fast",
+      "tool": "cursor",
+      "model": "grok-4.7-xhigh-fast"
+    },
+    "reviewer_light": null,
+    "pool": [
+      {
+        "id": "cursor-grok-4-7-xhigh-fast",
+        "tool": "cursor",
+        "model": "grok-4.7-xhigh-fast",
+        "default": true,
+        "note": "default builder"
+      }
+    ],
+    "policy": "always-default"
+  },
+  "ui": false,
+  "stack": {
+    "id": "node-cli",
+    "toolchain": "node",
+    "manifest": "package.json",
+    "commands": {
+      "install": "pnpm install --frozen-lockfile",
+      "typecheck": "pnpm run typecheck",
+      "lint": "pnpm run lint",
+      "test": "pnpm run test",
+      "build": "pnpm run build"
+    },
+    "preview": "",
+    "scaffold": {
+      "create": [
+        "pnpm init",
+        "pnpm add -D typescript vitest @types/node"
+      ],
+      "health": "",
+      "logger": "pino",
+      "tests": "vitest",
+      "architecture": "code under src/domain imports nothing from the framework, the database client or src/app"
+    }
+  }
+}

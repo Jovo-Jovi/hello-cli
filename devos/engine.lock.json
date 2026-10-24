@@ -1,0 +1,638 @@
+{
+  "$comment": "Written by devos install and devos upgrade. Never edit by hand.",
+  "engine_version": "0.2.1",
+  "files": [
+    {
+      "path": ".claude/agents/design-inspector.md",
+      "sha256": "cba527737b25392127b18fbf2568d7fa7b7b70072b99b7f10c3a85e20907e817"
+    },
+    {
+      "path": ".claude/agents/fence-auditor.md",
+      "sha256": "4b794f7323388c3f83f357f0e12d5665c4b750a9b8c36e3b032ffed9d94be80a"
+    },
+    {
+      "path": ".claude/agents/security-auditor.md",
+      "sha256": "b60ce43c4ba70e8cbd892d6d58efaa20c098f965873374a25df6c8bc97c6619f"
+    },
+    {
+      "path": ".claude/commands/devos-method.md",
+      "sha256": "7793aebc94b26b80157e1d630e512b9f95cf04e8fdd84060e788ef970f1ea491"
+    },
+    {
+      "path": ".claude/commands/devos-new-project.md",
+      "sha256": "10ef575e65a3831eea7c57aadfc67a5b22f436d5d31a44b073a977f68fa4894d"
+    },
+    {
+      "path": ".claude/commands/devos-review.md",
+      "sha256": "23ae9b9d34b371a743bc2bc8fba63a80a3d95bdb9d8d4e68667875323b08c089"
+    },
+    {
+      "path": ".claude/settings.json",
+      "sha256": "5ffe2975e0d2f07a7a0ea91f5a65f3ea541b9197b868b7dc08a03130dd652a18"
+    },
+    {
+      "path": ".claude/skills/devos-fence-writing/SKILL.md",
+      "sha256": "86cf187d3b2af286a461b178fd7358ff2cc2d3ea0794401ce59387f6083c3f70"
+    },
+    {
+      "path": ".cursor/cli.json",
+      "sha256": "e0c7d4f833baef8a6c0a6f568d79e5dc31c20aa3f3d2233767201d4ec8461641"
+    },
+    {
+      "path": ".cursor/hooks.json",
+      "sha256": "1284fbbfdb6ce3121fbd9442d624468b611ccd648c35c13eec76ff25083c103b"
+    },
+    {
+      "path": ".cursor/hooks/shell-policy.mjs",
+      "sha256": "6efa104836eeb2f52dd5690bb768401c0472ae43b541c9103d5edcfe2266dec3"
+    },
+    {
+      "path": ".cursor/hooks/stop-guards.mjs",
+      "sha256": "51074b71166801a7a414a80e92b69bdf474954c40ea3fc87da5cb9abe2604efe"
+    },
+    {
+      "path": ".cursor/mcp.example.json",
+      "sha256": "8264660c9bac268911ea548dd4ea57cd9f0bbc2daa04398389a6a40bcf6ebbbc"
+    },
+    {
+      "path": ".cursor/rules/00-project.mdc",
+      "sha256": "212a703ba0d34edc04d012de5b6c5f87670ed0ca52b5dce83c4a6ebf6dedd140"
+    },
+    {
+      "path": ".cursor/rules/20-bilingual-rtl.mdc",
+      "sha256": "fac4cefdc04c0a78157fa88747177071f39cf4bc5f0e4cd6cdbb56dfad840d01"
+    },
+    {
+      "path": ".cursor/rules/40-environment.mdc",
+      "sha256": "ba3dd0c9c79356f82cdaa42fcb95c4bee133a526ed7e3c19ef2f48426a910677"
+    },
+    {
+      "path": ".cursor/rules/50-report-halt.mdc",
+      "sha256": "bbdce9edb77aa3dcaed72877c515ca2a1acc021dfeca7526c9ca65e38983336c"
+    },
+    {
+      "path": ".cursor/rules/60-mcp-tools.mdc",
+      "sha256": "d803cb44294eb84882079a0f38eca2eb98833d3af8a9b70e47a174282e4aa5bf"
+    },
+    {
+      "path": ".cursor/rules/70-supabase.mdc",
+      "sha256": "c57ca510c3ed05cd3b0f59c10d06ddefa5ca8c33bb778bdcfa1ad1c57a1a74c9"
+    },
+    {
+      "path": ".cursor/rules/71-r2.mdc",
+      "sha256": "716cb733be07786bd667b6af223c63bb38f300ebcf49e97a80fc52bf9225c1ff"
+    },
+    {
+      "path": ".cursor/rules/72-firebase.mdc",
+      "sha256": "aa02ac86111a344b431ba6edce15cefdd816bd1d8b7ea295b2338f1a0769d284"
+    },
+    {
+      "path": ".cursor/skills/devos-compose-ui/SKILL.md",
+      "sha256": "b6d9652f8877ed12a66895fc0292cb5f27e25b7ca4a3498cd9ed941debfe9e5a"
+    },
+    {
+      "path": ".cursor/skills/devos-execute-fence/SKILL.md",
+      "sha256": "105228928191a77a0ad10cec3043e6bb65bf29aab5fbfc71e4f27bea80a3ebbc"
+    },
+    {
+      "path": ".cursor/skills/devos-task-report/SKILL.md",
+      "sha256": "66c97820ceafacfde14942ad41eef5ab1affcf0713c634cf66cfbc12e374e725"
+    },
+    {
+      "path": ".gitattributes",
+      "sha256": "6ff7cb089a6c4205bb2eee023e254ad753a6c7bc6d9646467102ff8bc1b4f32d"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/config.yml",
+      "sha256": "13064e7bea658e01e718b414fbb7b3b244f36411fe25ee2055c151f7b534547a"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/devos-method-fix.yml",
+      "sha256": "b3f5c6970af3573de3fd87b793c0fd9c7b5885e39cddf72bacbe175612e1b7d0"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/devos-request.yml",
+      "sha256": "0deb258d228b254843d9f93ec0892f56e18b2537b5887c80ca1e81c1867d7f5b"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "3ff52c161fcc4ad18433f5ee75a5b3e6c5e7f3e602f5f5bc167f0731083ef5f2"
+    },
+    {
+      "path": ".github/workflows/devos-advance.yml",
+      "sha256": "bcb5bca5a27474b9ebc59c2c3e5b2583ea3059ebece8dcaedce9533d7c1b00de"
+    },
+    {
+      "path": ".github/workflows/devos-cycle.yml",
+      "sha256": "94b7ae76707d4b996dfdab38fd78c86026c770d8298f33f2b7b2d6409ae879e3"
+    },
+    {
+      "path": ".github/workflows/devos-deploy.yml",
+      "sha256": "e96306fc61816b57a371ac1e87fec6293d6d73f99187bfaf71852df1f285067c"
+    },
+    {
+      "path": ".github/workflows/devos-doctor.yml",
+      "sha256": "6a767afd72cb814187ae6034ce3c131e4a18b4858f1278078387601fa2fb3e30"
+    },
+    {
+      "path": ".github/workflows/devos-intake.yml",
+      "sha256": "27367140d2e55d3edeecea5ab66b408b5484ac75d7426eff45be4449ae194090"
+    },
+    {
+      "path": ".github/workflows/devos-resume.yml",
+      "sha256": "a511034726ce410915f11b9a3f18104b0b5dd04217e7328f6d62dad19b3797b3"
+    },
+    {
+      "path": ".github/workflows/devos-setup.yml",
+      "sha256": "fc94b795aeebdeef45e66a20df7f9a4daf4479466d115a882fd38abc35711aad"
+    },
+    {
+      "path": ".github/workflows/devos-supervisor.yml",
+      "sha256": "4d0f0cbd2720b8bc881ed50ba0b885c085176463f0bf46c81b98d159fdebe095"
+    },
+    {
+      "path": ".github/workflows/devos-wait.yml",
+      "sha256": "93f6c04c27f9ddb03889d70f301b8089a8a52967c95564bd453e9610dca47183"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "e45529a9d7e596fd47769f2bdb25175cc37d81d89aebdbf9df55f421f9a4e5d5"
+    },
+    {
+      "path": "devos/ci/mcp.ci.json",
+      "sha256": "16a7b4af6b04f2e62ba23591f2f817323df41617ecb65664b39e3bf1721942ae"
+    },
+    {
+      "path": "devos/ci/mcp.claude.json",
+      "sha256": "fce4dbd6f3476e6ba72f643e541aa12c70b4a13f129021b9cbcca3fd3bece200"
+    },
+    {
+      "path": "devos/engine.defaults.json",
+      "sha256": "3d044cabaf745b4ee3cdf1c983e1538e22d557ad0febc702da60403d5ac5cff3"
+    },
+    {
+      "path": "devos/prompts/blueprint.md",
+      "sha256": "144d946fe2b78fc16869d50c9d570a66141adcb38af557df3a2b1f53be6cd37a"
+    },
+    {
+      "path": "devos/prompts/builder.md",
+      "sha256": "5de2f88e1c44471d1cec78cd8f47d7e23c1258c8d7525a81e34bfbecaa9738f1"
+    },
+    {
+      "path": "devos/prompts/doctor.md",
+      "sha256": "fc31a99b4f50e66c111736f73e88f86654e3181ca991d3218a60dcfd65ccf568"
+    },
+    {
+      "path": "devos/prompts/intake.md",
+      "sha256": "71cec84d8a01e0e5025f48ded0c5ab13c33dde802b4b619317eb099d637fe6b5"
+    },
+    {
+      "path": "devos/prompts/method.md",
+      "sha256": "0b25d3b58137108e69459379f7948846145ab222fe73c099e13237c66a55f347"
+    },
+    {
+      "path": "devos/prompts/reviewer.md",
+      "sha256": "09b9ae6725dbf696eecc06c44f0d6ae41bc748078f876aa79a7d4f292c6de575"
+    },
+    {
+      "path": "devos/prompts/revise.md",
+      "sha256": "415bfa94308bf0d78620d8081b9b96d81cd5c444c95459df28a4b666c203340b"
+    },
+    {
+      "path": "devos/prompts/supervisor.md",
+      "sha256": "74a934d47838a87603e6dfde0c2e94d9d6d9f4af7cbaced2cacf3f2fae3aa4a4"
+    },
+    {
+      "path": "devos/roles/claude-builder/CLAUDE.md",
+      "sha256": "72b408e966760a666ce9ad8ff10a35c201d5ca94483631496b795e0a4b2347a2"
+    },
+    {
+      "path": "devos/roles/claude-builder/settings.json",
+      "sha256": "bb98adb9f421567383d7b828ad9aea32a23800106b6a88caae56822678d3ae0d"
+    },
+    {
+      "path": "devos/roles/cursor-blueprint/cli.json",
+      "sha256": "08dc5a6a17a5a064c34bfe142b695a170355dbf8b92325b0d1d7395aaab4d87d"
+    },
+    {
+      "path": "devos/roles/cursor-planner/cli.json",
+      "sha256": "1f114d1c05f25651ed1e541d754bf7f2c0b1fdb96f43fb6ab71a0121fcda7ef3"
+    },
+    {
+      "path": "devos/roles/cursor-planner/rules/00-planner.mdc",
+      "sha256": "804516ea093a1c6f12a4703bf186850b8c9b0dabbb389e7b3f11fc102176c7eb"
+    },
+    {
+      "path": "devos/roles/cursor-reviewer/cli.json",
+      "sha256": "f1e495ef50f24370728a7a7cddbf4ff82d688f66e68843d243220a0cdcb1fd15"
+    },
+    {
+      "path": "devos/roles/cursor-reviewer/rules/00-reviewer.mdc",
+      "sha256": "94187326af495960d0a309c0934e9ad0f507c1c69d5f407755092c5737745b46"
+    },
+    {
+      "path": "devos/roles/gemini/policy.toml",
+      "sha256": "2adbaaa5ad8b18ee9c7c5e684b502de0088a44c567b7a2f575bb0b66b31cdbe2"
+    },
+    {
+      "path": "devos/roles/gemini/settings.json",
+      "sha256": "4ae9a642ea28968aeff49f36d432882d45262c45d539eabaf29604c56f8bdf9d"
+    },
+    {
+      "path": "devos/schemas/doctor.schema.json",
+      "sha256": "6ed21854595b8cbdf90cfef6e514e824b3a7565f288557b9c8e936090a7500b8"
+    },
+    {
+      "path": "devos/schemas/intake.schema.json",
+      "sha256": "27438b0f9809122ee83d9504072aa0fa2eabea14a867ff8924b21f80042b653e"
+    },
+    {
+      "path": "devos/schemas/supervisor.schema.json",
+      "sha256": "570232dce6d72a9f65e0e0ca6fd1d01e351d5e3bdd166ae3f2fd9d566ad06157"
+    },
+    {
+      "path": "devos/schemas/verdict.schema.json",
+      "sha256": "bcd8853c081620e2e49b8407a9518cb0f7dbd552472990dade1642c25bd62004"
+    },
+    {
+      "path": "devos/setup.json",
+      "sha256": "1fcc2007fa7afe3cf0b8ea47b9e8e40f932cca253d6e55278eddb8fb8003a0a4"
+    },
+    {
+      "path": "devos/skills/README.md",
+      "sha256": "47d38eda764f23b4e4261f01eeb48a0c14025b241e3f7be2da5f1a411126a810"
+    },
+    {
+      "path": "devos/skills/emil-design-eng/LICENSE",
+      "sha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b"
+    },
+    {
+      "path": "devos/skills/emil-design-eng/SKILL.md",
+      "sha256": "ffbe68e6007fb42cb8149f089b400a1ca007d59ba23e8948e2be4476f3175939"
+    },
+    {
+      "path": "devos/skills/fixing-accessibility/LICENSE",
+      "sha256": "c615621c4cc1676ccde194e7a01b6469ba477780251bd71e007fc473a49c2c2b"
+    },
+    {
+      "path": "devos/skills/fixing-accessibility/SKILL.md",
+      "sha256": "549261e8a53b53a1a20c0ddbf736821e5fc0876ad82eee76e0efab8e9ee9dadf"
+    },
+    {
+      "path": "devos/skills/frontend-design/LICENSE.txt",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594"
+    },
+    {
+      "path": "devos/skills/frontend-design/SKILL.md",
+      "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3"
+    },
+    {
+      "path": "devos/skills/impeccable/LICENSE",
+      "sha256": "02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812"
+    },
+    {
+      "path": "devos/skills/impeccable/NOTICE.md",
+      "sha256": "c60a093c2845fd9fb82f9c6f742ece31f379f8190b535309d32d66c45ccffdcb"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/adapt.md",
+      "sha256": "5826bb4bca75d7b891bed17ff03bd3b685dff0e4f26d387fa6190d4ba3f065e4"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/animate.md",
+      "sha256": "94b4ce6299fea93d9f256b2d25705961a76bc5ea940c56db4145686ebc99df1b"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/audit.md",
+      "sha256": "a24d86f22f23ac594c87dfffce68b03cb475efbae48a84652ad9023d96295df5"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/clarify.md",
+      "sha256": "6c382f8283756e8a693d832b750f7e4cbff1ca5bdcc3825b2b4ef4da9f21876a"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/colorize.md",
+      "sha256": "d1fbd55074abb2251bdaa03749d34acc42c38e46e47549f18f5848df57d43c42"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/craft-floor.md",
+      "sha256": "ba01bbab98671095b76c2170324abdcceb55fd39fd281bc46daddc2b3c2b0753"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/harden.md",
+      "sha256": "98244db22d907a134cac0c94ffb829ba480ba61cfac67ae155ac2f46444da7c9"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/layout.md",
+      "sha256": "64802d14087fc96b38ef3881fef8098b36068d07f3b942031637b18eef3dd2af"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/onboard.md",
+      "sha256": "eb713f3d6686bac6431dd874f7b02358b4cf08e879e11bf747d75660dedd685a"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/operate.md",
+      "sha256": "a9d2203acd45ca33a13d5c68b02b23ed512425ac15f0e8438318ed124b43729d"
+    },
+    {
+      "path": "devos/skills/impeccable/reference/typeset.md",
+      "sha256": "c9943e06ca311258d8aa5a5c65f5beb7a46c57c5e9a2075d2a246bf1337f00bb"
+    },
+    {
+      "path": "devos/skills/manifest.json",
+      "sha256": "e5f1aff55768fe2a776af2fd2548a69e434e86ed37bc2facac2f2fea6819ba23"
+    },
+    {
+      "path": "devos/skills/review-animations/LICENSE",
+      "sha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b"
+    },
+    {
+      "path": "devos/skills/review-animations/SKILL.md",
+      "sha256": "6ff590d29e436766135aa3d137be1fac2a867165c7257fc315b189361f1873af"
+    },
+    {
+      "path": "devos/skills/review-animations/STANDARDS.md",
+      "sha256": "e7d3605034acda54ca13e43aec9e64d65b53de20f75b11b8d694e373012fbe07"
+    },
+    {
+      "path": "devos/skills/taste/LICENSE",
+      "sha256": "4575a543ab88dad12ccea7d97e563d0bce5b448b06072e65d3264497dad326df"
+    },
+    {
+      "path": "devos/skills/taste/references/colour.md",
+      "sha256": "6556bcc7eed48b7bc2d0d281c28bf57c1b75e94d7ca0bde49f5d9df8c6a09351"
+    },
+    {
+      "path": "devos/skills/taste/references/critique.md",
+      "sha256": "9c2f4392674530b3f02ac529fba53d82ab37b85f401c4c1989fbe98d6217f0b4"
+    },
+    {
+      "path": "devos/skills/taste/references/layout.md",
+      "sha256": "40080640719b07737afb94a8868afef87767a1ab4892814d9b6882e2d283453b"
+    },
+    {
+      "path": "devos/skills/taste/references/tells.md",
+      "sha256": "8e6de4411c43d3108f832b3f33bb1a2a838148a72b92a176df893b67d99a0da9"
+    },
+    {
+      "path": "devos/skills/taste/references/type.md",
+      "sha256": "6353ff1d0ce2f9913628c88fbcb7dad3cc3877e61196848bce99e33a17d20611"
+    },
+    {
+      "path": "devos/skills/web-interface-guidelines/LICENSE",
+      "sha256": "6cd1609c9c12233507cdd2ce0d32e9a721e3c27494951be06b90090deeeb7af2"
+    },
+    {
+      "path": "devos/skills/web-interface-guidelines/SKILL.md",
+      "sha256": "eefd971484d8e75df1e3bc84dae4088b8b9513344bca079df7b506e45e2366ba"
+    },
+    {
+      "path": "devos/skills/web-interface-guidelines/command.md",
+      "sha256": "d246b026f4f29b5823a9cc857f9edf3d2507002e055e32040cadeaf3b38e0234"
+    },
+    {
+      "path": "docs/method/AUTOMATION.md",
+      "sha256": "b12dd8cba449d5d3811b8008d77fc05f8a1633d16cc2308ccdaa487bfe710e3b"
+    },
+    {
+      "path": "docs/method/DESIGN_METHOD.md",
+      "sha256": "9b35bf4fdaeb8f2035cdb657ac503c4f8d531aa5a88da63ed0dc9857b19471a7"
+    },
+    {
+      "path": "docs/method/DEV_OS_V2_REVIEWER.md",
+      "sha256": "eeb3e974861943d075946707b89d51aa4fea211494ea43a3661849f9680ff850"
+    },
+    {
+      "path": "docs/method/FULLSTACK_MODULE.md",
+      "sha256": "63b2116cd2116ffcbbe0d07c4b4891d823eabf4bf76b9dc179b1c9fe890fae64"
+    },
+    {
+      "path": "docs/method/PRECEDENTS.md",
+      "sha256": "5837f4fe56ebed5ad4bbc5689ffcf8226e9892b8a8ffb2546517ba3a898e6c72"
+    },
+    {
+      "path": "scripts/devos/accounts.sh",
+      "sha256": "4de621902b026fd3aefa40777dbb1a7bc6c40ba6354f6673df4c8406b26f1e2a"
+    },
+    {
+      "path": "scripts/devos/agent-cli.mjs",
+      "sha256": "8252db4a8312772cef4f53a44bf1fdbe0a956bf0d8a819cd44f78e5ad98b6139"
+    },
+    {
+      "path": "scripts/devos/agent-watchdog.sh",
+      "sha256": "4b6fe526d0f9448cf0c995750c5a36f8f933a27bdb8a752f26fbfce048565b8f"
+    },
+    {
+      "path": "scripts/devos/agents.mjs",
+      "sha256": "e6a932fd5a88dfd36cf3338f54f4dcbf0922cae39b0cbd55a9afc3af8b5d1bc4"
+    },
+    {
+      "path": "scripts/devos/builder-model.mjs",
+      "sha256": "1c2092d8f865c91ba6418db738fa43b272ea8c97b1bd4040eeaf6c85ad6bbc1f"
+    },
+    {
+      "path": "scripts/devos/builder-report.mjs",
+      "sha256": "e487bb788c7fc3f46cb8bc9a72d9a16cde8262620082bde0aef3bf66ed0d9ec3"
+    },
+    {
+      "path": "scripts/devos/builder-status.mjs",
+      "sha256": "89d836b4984363197b801327bc519cb38db8d776adddc140ee43bae1a719a84f"
+    },
+    {
+      "path": "scripts/devos/checks-status.sh",
+      "sha256": "6640878b0ce19df7b4fbfcfa9683296434c9562ca66f2724dbcbe1adb954277d"
+    },
+    {
+      "path": "scripts/devos/config.mjs",
+      "sha256": "50615e9f27197b5458c39fc242149702b16bcaefca2bd97a2a33e9771c6ef351"
+    },
+    {
+      "path": "scripts/devos/doctor.mjs",
+      "sha256": "2f90270b94d598f901ab91e316545f667a2de08197f0fac498559461f10c3e6e"
+    },
+    {
+      "path": "scripts/devos/evidence.mjs",
+      "sha256": "61668b3745ad52eeee44f7b238bac1b3374e4d6dfcbfa0ea6e60db747c1d18b7"
+    },
+    {
+      "path": "scripts/devos/firebase.mjs",
+      "sha256": "43c8fbd4cc0b1873b6c7ed953ceb8b12adb1f3a9ecd2c63268e79608e0682926"
+    },
+    {
+      "path": "scripts/devos/guard-surfaces.mjs",
+      "sha256": "2e62c5e6701cb749a7726c8c96e2968b98c314942be1d8981036bb9819a657f0"
+    },
+    {
+      "path": "scripts/devos/heavy.mjs",
+      "sha256": "feb35fa8a55e355927d859af72e15027d65e66c7fc00df00737208324aaaa55c"
+    },
+    {
+      "path": "scripts/devos/lib.mjs",
+      "sha256": "4090efa1d98c5a8e7a20d65d7016a31e5f5c0dfbae0780fb598ff6724489d133"
+    },
+    {
+      "path": "scripts/devos/limit-check.mjs",
+      "sha256": "7a8e8c9347e53a70e3e40d48c909b032b09a4420a05b50b93e682407bdfcd130"
+    },
+    {
+      "path": "scripts/devos/limits.mjs",
+      "sha256": "5a60a550a26247edf67072c601bf6faec36d5ca951e8aab519e4480a46df5991"
+    },
+    {
+      "path": "scripts/devos/loop.mjs",
+      "sha256": "cde4b46a070189cd8433e856434476ab08048dbf7737ab343077c6a88d7e6d25"
+    },
+    {
+      "path": "scripts/devos/modules.mjs",
+      "sha256": "c863a9e5980ea1a039cfee402216fbf5f8eed9dc0301807087e4e63e31c2e8b7"
+    },
+    {
+      "path": "scripts/devos/next-task.mjs",
+      "sha256": "a27871c99cfb3282652174bf547c1494d1f1c64c6f2d6509d3b092ee620a9d77"
+    },
+    {
+      "path": "scripts/devos/plan-agent.sh",
+      "sha256": "967ec4d8a6c72618ba0ed6c0748796636caefc69e939c953cf9d7329dd6349d0"
+    },
+    {
+      "path": "scripts/devos/probe.mjs",
+      "sha256": "0aed27220f7effb6e0bac46cd1a5f3363dd1cef0258a7d7e71073e01d57afc73"
+    },
+    {
+      "path": "scripts/devos/progress.sh",
+      "sha256": "1f48954854e00087421df10538bb5ac5b26411ac692f20ed6d902b2f54ec4c9a"
+    },
+    {
+      "path": "scripts/devos/r2.mjs",
+      "sha256": "a9510be4a02a3dbdaa166b41a932a0cf05106cce626a4cfaea45f40c19c26ada"
+    },
+    {
+      "path": "scripts/devos/render-prompt.mjs",
+      "sha256": "78c9fb7cae70567894837c1bf7ec00638acd28138f1a9a1ddfbaf21b92913156"
+    },
+    {
+      "path": "scripts/devos/rescue.sh",
+      "sha256": "c74db10c3658bf13dd420128411e2480dd3aa59a5fa18a101e65a7e3b09032df"
+    },
+    {
+      "path": "scripts/devos/review-mode.mjs",
+      "sha256": "9b25885f4ac643f63cc8282e30319f7c15a588d40f0f7f79235448c8f18ed154"
+    },
+    {
+      "path": "scripts/devos/role-env.mjs",
+      "sha256": "3c40cd984aeec1aa144496c0ca90bee138a0ab0e3d06daf8904aa393efc96898"
+    },
+    {
+      "path": "scripts/devos/run-agent.sh",
+      "sha256": "effb5f42185779a64637904ffa949bb28f1ae6bdeabea4664d8f1e30c32dc10b"
+    },
+    {
+      "path": "scripts/devos/run-checks.mjs",
+      "sha256": "564ee94e351582f611a0e9df8a7025968dbf179f111dd2a46e31cded83fab2ca"
+    },
+    {
+      "path": "scripts/devos/screens.mjs",
+      "sha256": "4c2bd9286e40720dcae4f1e9bf382b22c481fdbaa4feb5d93e3dccc238a12f4a"
+    },
+    {
+      "path": "scripts/devos/screens.test.mjs",
+      "sha256": "713fb7f2904ab1b45047226608ce23641a8ebfc359032286b0334f6d9b32c567"
+    },
+    {
+      "path": "scripts/devos/setup-check.mjs",
+      "sha256": "53d877d425022663cd64f1f240c57c2f3b6f5076e68526d30e4e2b1aee01bdb1"
+    },
+    {
+      "path": "scripts/devos/setup-issue.mjs",
+      "sha256": "6a79a58b3da8a13801a73e7464b12082c00aab1aa67e7bf012cf9d3d8762c4b0"
+    },
+    {
+      "path": "scripts/devos/supabase.mjs",
+      "sha256": "8c501b4b182d81da505452b1c96d391572b2b1b2dffced6b1fb07e0592b00d12"
+    },
+    {
+      "path": "scripts/devos/supervisor.mjs",
+      "sha256": "2d928b76270fb7696aa58d8b1f72e4dc351c40186daa507f26adba9f626aa812"
+    },
+    {
+      "path": "scripts/devos/sync-main.sh",
+      "sha256": "ad95856b9454be7015cc6b3f2a5f39d145fd5c6913291a62e619d26c97f66745"
+    },
+    {
+      "path": "scripts/devos/ui-evidence.mjs",
+      "sha256": "710402df7dce0f727c4b9719f3cf5d9eafda7fe6e7bc4a8cdb9320593c68ac2c"
+    },
+    {
+      "path": "scripts/devos/usage.mjs",
+      "sha256": "781ff3e475e7755b94eaf6d8ddbba9c10a6f0895cb58a289755a015144d73053"
+    },
+    {
+      "path": "scripts/devos/vercel-deploy.sh",
+      "sha256": "da3865537a1161cfaf6c7a4215ad2ca63108e8a167a63f9809a3030046bda7a3"
+    },
+    {
+      "path": "scripts/devos/verdict.mjs",
+      "sha256": "5854e83b00729fb439008fc2b59bdfcba34eca9a56447584deef7f730bf94618"
+    },
+    {
+      "path": "scripts/guards/boundary.mjs",
+      "sha256": "41667dc923a58948c14d2ee9f926922c3fe494e224856965ac3e8ee3ab9f74a2"
+    },
+    {
+      "path": "scripts/guards/config.mjs",
+      "sha256": "f7aed14f10870194825be6966334e914028c4848d1a6244a8def3533e6a26947"
+    },
+    {
+      "path": "scripts/guards/data.mjs",
+      "sha256": "baf076bf7508844f0d60a7dc4692c59fb7a20b7b976cbd55c89d1ce7a44ebd8e"
+    },
+    {
+      "path": "scripts/guards/design-spec.mjs",
+      "sha256": "f58f3bccf2cb0ff128496353678c20171681f83526b6f9d9a047080c5ebd659c"
+    },
+    {
+      "path": "scripts/guards/design.mjs",
+      "sha256": "65e1feaf892d34198164a3a949fd84db1add5340c2b45ae4491381ea1fd2b377"
+    },
+    {
+      "path": "scripts/guards/i18n.mjs",
+      "sha256": "31ebc4ec6907fe7e31b404a4667b3453fe56cd514c053b43e668d9d6df1fba8d"
+    },
+    {
+      "path": "scripts/guards/lib.mjs",
+      "sha256": "ade5bc49d7a6cc6990dcb68d73ac3b55f20fd1a9ee2f621b915b1ef4d805bcf1"
+    },
+    {
+      "path": "scripts/guards/literals.mjs",
+      "sha256": "b447051f101d2c5cd901599af350772d80364cbc7fb28ee1f5787ab0b4c56d0d"
+    },
+    {
+      "path": "scripts/guards/manual.mjs",
+      "sha256": "a631183acbb4c45f230bd1ee39c493bc6fc03d16a4e5b8eb580f169a8853387e"
+    },
+    {
+      "path": "scripts/guards/naming.mjs",
+      "sha256": "c415b4d40d609cc03399dbf8b31545058bfec39833b5c2883da98c525bfcf787"
+    },
+    {
+      "path": "scripts/guards/phases.mjs",
+      "sha256": "b5c976d0719f43de773ac92ba4ed1ddd38cceef2d3714671076c51a6cb6ae1e4"
+    },
+    {
+      "path": "scripts/guards/run-all.mjs",
+      "sha256": "796ad67041e1986446258cfc9d65ace63218ae8fc5a0bed4b0d449a1ae6ba2ec"
+    },
+    {
+      "path": "scripts/guards/secrets.mjs",
+      "sha256": "5125258386bc52afe091d86464e2cf97e45793267c4f0bb1f38179ad6d2a2ee4"
+    },
+    {
+      "path": "scripts/guards/services.mjs",
+      "sha256": "efa28a3aa10d61748f6a0cf1ca1b5cae53f0777f099198935a079e2d0e62a425"
+    },
+    {
+      "path": "scripts/guards/skills.mjs",
+      "sha256": "a0c75911c964b120d5fc30181b4806b9ed8ab2da0ed8b30be22846e8f9e102ac"
+    }
+  ]
+}

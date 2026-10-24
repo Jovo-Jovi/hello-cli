@@ -1,0 +1,10 @@
+---
+description: Secrets, data protection and the boundary gate
+alwaysApply: true
+---
+- No credential, key, token, project ref, connection string or real personal data in code, commits, fixtures, logs or reports. Fixtures are synthetic. This command has no fixture of a real person.
+- Boundary gate (non-waivable, OD-01): the command does not collect, store or send the name argument. `docs/BOUNDARY_MODEL.md` declares profile A and no zones. There is no `<form>`, `<input>`, cookie, local/session storage or `route.ts` handler anywhere. Beacons, analytics and trackers are never allowed. `guard:boundary` fails the build on them.
+- No zone holds personal data, so there is no `docs/PROTECTION_MODEL.md`. A change that stores or sends the name stops for a new OD.
+- No contact data (phone, email, address) as literals in source (`docs/CONTENT_MODEL.md`). `guard:literals` fails the build on phone or email literals.
+- The command checks its one argument in `src/cli.ts` (`docs/CONTENT_MODEL.md`). Invalid input exits 1 with the fixed refusal and is not stored. Zod is not used.
+- There is no HTTP server and no `next.config.ts`. Do not add one.

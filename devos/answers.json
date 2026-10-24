@@ -1,0 +1,24 @@
+{
+  "$comment": "Your answers to devos init. The blueprint reads them; change them here and ask for changes.",
+  "name": "Hello CLI",
+  "key": "HELLO-CLI",
+  "brief": "A command-line tool that prints a greeting for a name",
+  "users": "Developers",
+  "stores_data": false,
+  "sign_in": "none",
+  "languages": [
+    "en"
+  ],
+  "deploy": "none",
+  "visibility": "public",
+  "type": "cli",
+  "stack": "node-cli",
+  "modules": {},
+  "scope": "mvp",
+  "contract_version": "0-draft-2",
+  "blueprint_agent": {
+    "tool": "cursor",
+    "model": "grok-4.7-xhigh-fast"
+  },
+  "attachments": []
+}

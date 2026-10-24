@@ -1,0 +1,9 @@
+---
+description: One locale, no HTML (docs/I18N_MODEL.md)
+globs: src/**
+alwaysApply: false
+---
+- One locale, `en` (`docs/I18N_MODEL.md`). There is no root layout, no `lang` attribute and no stylesheet. Do not add `[locale]`, `Accept-Language`, or a language cookie.
+- User-facing sentences live in `src/i18n/messages/en.json`. T01 leaves that file as `{}`. T02 adds the keys in `docs/CONTENT_MODEL.md`. The safe failure sentence is not a catalogue key.
+- Do not add CSS. `guard:design` still forbids a third-party URL, a raw colour and a physical CSS property in `src/`.
+- This command has no interface. Do not invent a page, a token file or a component.

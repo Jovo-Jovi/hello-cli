@@ -1,0 +1,8 @@
+---
+description: Enforced vocabulary for identifiers (from docs/GLOSSARY.md §3)
+alwaysApply: true
+---
+- Forbidden bare nouns in type, interface, class, enum, route-segment and content-field names: `event events item items data info user users log logs record records status`.
+- Use the qualified names from `docs/GLOSSARY.md` §1 and §3. The only entity is `Greeting`. `user` is forbidden: there is no account, and the argument is not a person record. `log` is forbidden as a type: diagnostics go through the module `logger`. `event`, `item`, `data`, `info`, `record` and `status` are forbidden as type names; the exit value is a number, not a `Status` type.
+- Route segments in use are the project's; a segment is allowed when `guards.naming.allow_routes` lists it. This command has no routes.
+- PascalCase entity names are permitted only as the exact entity names in `docs/GLOSSARY.md` §1 plus the qualified type names above. A bare forbidden noun is a defect; `guard:naming` fails the build on it. Local variable names are outside this rule.
