@@ -6,4 +6,4 @@ has no other feature, and `scope` is `mvp`.
 | Task | Phase | Station | Name | Risk | Gate | Done | Verdict |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | T01 | P01 | J4 | Scaffold | 2 | — | [x] | PASS a1 — docs/reviews/T01-a1.md |
-| T02 | P02 | J5 | Greeting | 2 | — | [ ] | — |
+| T02 | P02 | J5 | Greeting | 2 | — | [x] | PASS a1 — docs/reviews/T02-a1.md |
