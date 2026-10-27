@@ -15,7 +15,7 @@
   "stack": "node-cli",
   "modules": {},
   "scope": "mvp",
-  "contract_version": "1",
+  "contract_version": "2",
   "blueprint_agent": {
     "tool": "cursor",
     "model": "grok-4.7-xhigh-fast"
