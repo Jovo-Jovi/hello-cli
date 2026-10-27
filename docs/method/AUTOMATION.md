@@ -33,7 +33,8 @@ The method this machine runs is the handbook, `docs/method/DEV_OS_V2_REVIEWER.md
 
 Invariants every change must keep: the Boundary gate is non-waivable · red checks override PASS
 (PR-08) · nothing merges before its verdict (PR-13) · human gates (risk 3, a gate, a migration or
-rules change, a method change) wait for your merge · agents never hold a git credential (PR-04) ·
+rules change, a method change) wait for your merge · agents never hold a git credential (PR-04) or
+the OIDC permission (PR-61) ·
 secrets never enter a file · fetch, never paste (PR-02) · a usage limit is a wait, not a failure
 (PR-12, PR-29).
 
@@ -56,10 +57,10 @@ runs once, after the last stage. Intake splits big work into separate ledger row
    cycle` stops a run that has no credentials (PR-27); `heavy.mjs` announces or holds heavy runs (PR-20).
 2. `cycle`: branch `task/Tnn` (a reissue continues it, PR-03) → `builder-model.mjs` picks the builder's
    model id → `modules.mjs start` brings up the local services → the builder agent builds (`accounts.sh` switches
-   to the same tool's other account on a limit, PR-29, and with none left the attempt is parked, PR-53; `agent-watchdog.sh` stops a hung CLI inside the step) → `guard-surfaces.mjs builder` + the method-file guard (from
+   to the same tool's other account on a limit, PR-29, then to the builder's next model, PR-64, and with none left the attempt is parked, PR-53; `agent-watchdog.sh` stops a hung CLI inside the step) → `guard-surfaces.mjs builder` + the method-file guard (from
    main's workflow) → commit, `sync-main.sh`, push → PR → `builder-status.mjs` (ok / park / halt) →
    `run-checks.mjs` + `checks-status.sh` (status `devos/checks`) → preview + `screens.mjs` (settled screenshot, filmstrip, reduced-motion screenshot, layout shift, console errors, failed requests and axe, written to `.devos/screens/motion.json`) → `ui-evidence.mjs` (a UI fence's `ui-evidence` and `a11y` checks, PR-51) + `checks-status.sh` again →
-   `review-mode.mjs` (light/deep) + `evidence.mjs` → the reviewer agent reviews (account switch, PR-29) →
+   `review-mode.mjs` (light/deep) + `evidence.mjs` → the reviewer agent reviews (account switch, PR-29, then its next model, PR-64) →
    `guard-surfaces.mjs reviewer` → `verdict.mjs` decides → review commit, sync, re-check if main
    moved (PR-25), statuses → act.
 3. Actions: `merge` (auto-merge, label `devos:auto-merged`, next task dispatched) · `human_gate`
@@ -103,7 +104,7 @@ by a usage limit resumes as the revision it is.
 
 | File | Triggers | Jobs | Does |
 |---|---|---|---|
-| `devos-cycle.yml` | dispatch only (form: task, attempt, review_only, effort, fast, revision, reuse_review, go, cursor_account, claude_account) | `resolve`, `cycle`, `wait-and-resume` | one task attempt, end to end (§2) |
+| `devos-cycle.yml` | dispatch only (form: task, attempt, review_only, effort, fast, revision, reuse_review, go, cursor_account, claude_account) | `resolve`, `cycle`, `report`, `wait-and-resume` | one task attempt, end to end (§2); `report` links the repository to the DEV_OS registry and sends the events `cycle` noted (PR-61) |
 | `devos-intake.yml` | issue labelled `devos:request` / `devos:method`; comments `/devos intake`, `/devos go`, `/devos revise`; dispatch (resume) | `intake`, `intake-wait`, `go`, `revise` | plans requests and method fixes on the reviewer agent (`plan-agent.sh`, PR-53); holds and resumes plans across limits; releases held runs; revisions |
 | `devos-advance.yml` | PR closed (merged, `task/` or `intake/`, not auto-merged) | `advance` | dispatches the next task, or restarts the task a method fix unblocked |
 | `devos-doctor.yml` | ci finished; `/devos doctor`; push to main; dispatch (PR) | `gates`, `doctor` | the gate doctor (§2) |
@@ -123,18 +124,18 @@ workflow may start late.
 
 | Script | Role |
 |---|---|
-| `lib.mjs` | shared: config, PHASES parsing (`nextOpenTask`, `taskAfter`, method rows), globs, outputs, `.devos/*.env` |
+| `lib.mjs` | shared: config (with the model variables applied, PR-63), PHASES parsing (`nextOpenTask`, `taskAfter`, method rows), globs, outputs, `.devos/*.env` |
 | `config.mjs` | builds `devos.config.json` from `devos/engine.defaults.json` and `devos/project.json`; `--write`, `--check`, `--print`; PR-39 |
-| `agents.mjs` | resolves the builder pool id, the reviewer model and `next --after` (not used by the cycle since PR-53) from `devos.config.json` `agents`; `tools` lists the tools the agents use, so the cycle installs only those CLIs (PR-41, PR-42, PR-45) |
+| `agents.mjs` | resolves the builder pool id, the reviewer model, each agent's `fallback_models` (`builder_fallbacks`, `reviewer_fallbacks`, PR-64) and `next --after` (not used by the cycle since PR-53) from `devos.config.json` `agents`; `tools` lists the tools the agents use, so the cycle installs only those CLIs (PR-41, PR-42, PR-45) |
 | `role-env.mjs` | installs a role kit for a tool in the other role and restores the tool's own config (PR-42); `devos/roles/cursor-blueprint/` is the kit `devos init` gives Cursor while it writes the blueprint (PR-44); `cursor-planner` is Cursor's kit for a planning run (PR-53); the kits `codex-builder`, `codex-reviewer`, `gemini-builder` and `gemini-reviewer` give Codex its `AGENTS.md` and Gemini its `GEMINI.md` for the run (PR-45) |
 | `next-task.mjs` | which task and attempt; refuses out-of-order product tasks |
 | `heavy.mjs` | heavy-run notice or hold (`DEVOS_HEAVY`) |
 | `builder-model.mjs` | the builder model id from the pool item's family, checked against `agent models` |
 | `modules.mjs` | starts every needed module (`supabase.mjs`, `r2.mjs`, `firebase.mjs`); `plannedModules()` |
 | `supabase.mjs` · `r2.mjs` · `firebase.mjs` | each module's local service, env file and checks (PR-17, PR-26) |
-| `accounts.sh` · `limit-check.mjs` | account order, credential export, limit detection, for Cursor, Claude Code, Codex and Gemini (PR-29, PR-45) |
-| `plan-agent.sh` | one planning run (an intake plan, a method-fix diagnosis, a revision) on the project's reviewer agent, the one the developer chose: Claude Code answers through its JSON schema; Cursor, Codex and Gemini write the answer to `.devos/<stage>-answer.json`. Every tool's answer lands in `.devos/<stage>.json` as `structured_output`, with the same tool's other account on a limit. Cursor runs with the planner kit `devos/roles/cursor-planner/` (PR-53) |
-| `run-agent.sh` | runs Codex or Gemini as the builder or the reviewer: its role kit, its accounts with the usage-limit switch, the watchdog for the builder, and `.devos/<role>-run.env` (`code`, `used`, `accounts`) for the step (PR-45) |
+| `accounts.sh` · `limit-check.mjs` | account order, credential export, limit detection, for Cursor, Claude Code, Codex and Gemini (PR-29, PR-45); the order of model and account slots (`devos_slots`), a model the account cannot use (`devos_unavailable`, `limit-check.mjs --unavailable`), and a run that ends limited after an unusable model (`devos_settle`) (PR-64) |
+| `plan-agent.sh` | one planning run (an intake plan, a method-fix diagnosis, a revision) on the project's reviewer agent, the one the developer chose: Claude Code answers through its JSON schema; Cursor, Codex and Gemini write the answer to `.devos/<stage>-answer.json`. Every tool's answer lands in `.devos/<stage>.json` as `structured_output`, with the same tool's other account, then the reviewer's next model, on a limit (PR-64). Cursor runs with the planner kit `devos/roles/cursor-planner/` (PR-53) |
+| `run-agent.sh` | runs Codex or Gemini as the builder or the reviewer: its role kit, its accounts with the usage-limit switch, then the models given after the prompt file (PR-64), the watchdog for the builder, and `.devos/<role>-run.env` (`code`, `used`, `accounts`, `model`) for the step (PR-45) |
 | `agent-cli.mjs` | the Codex and Gemini command lines (`args`) and their output in the runner's result shape (`normalize`) (PR-45) |
 | `guard-surfaces.mjs` | who may change what, per role |
 | `sync-main.sh` | merges main into the task branch before every push (PR-14); `.gitattributes` merges the append-only journal and the usage records (`docs/usage/*.jsonl`) by union, a conflict in `docs/USAGE.md` alone is resolved by counting it again (PR-52), and any other conflict first pushes the run's work to `rescue/<branch>-<run id>` so it is never lost |
@@ -150,15 +151,18 @@ workflow may start late.
 | `screens.mjs` · `probe.mjs` | motion evidence for the visual check: settled screenshot, filmstrip, reduced-motion screenshot and layout shift in `.devos/screens/motion.json` (PR-35), with each capture's console errors, failed requests and axe result (PR-51); the local build is served by `stack.preview` (`next start` when it is empty); strict reachability probe |
 | `screens.test.mjs` | self-test of that capture (the fence `- Screens:` line, frame pick, filmstrip, layout shift, console errors, failed requests, axe) |
 | `ui-evidence.mjs` | for a UI fence, turns the captures into the required checks `ui-evidence` and `a11y` in `.devos/ci-results.json`: missing evidence is a failed check (PR-51) |
-| `review-mode.mjs` | light or deep review, model (the chosen reviewer's; no fallback model, PR-53), effort, turns, critical paths |
+| `review-mode.mjs` | light or deep review, model (the chosen reviewer's first, PR-53; its `fallback_models` come from `agents.mjs`, PR-64), effort, turns, critical paths |
 | `evidence.mjs` | `.devos/evidence.md`, the reviewer's evidence pack |
 | `render-prompt.mjs` | fills `devos/prompts/*.md` |
+| `fence-check.mjs` | a fence's machine-read parts, the same for every agent (PR-58): the first heading names the task; the builder line (`Effort` low, medium, high or xhigh; `Fast` yes or no); the `- Layers:` line in the skills vocabulary (not for a method fix); the `- Paths:` line (relative globs, none that allows every file or names a path the builder may never change); a Done when and a Do NOT section; `- Stages: N` (2 to 4) with its `### Stage` blocks in order; at most 12 Done-when items and 12 Paths entries per stage. The blueprint, the reviewer, intake, the method-fix plan and revise run it on every fence they write; the builder runs it before its first edit and HALTs on a finding; `devos init` repairs T01 until it passes; `guard:fences` runs it on the task's fence. `inScope` is the rule `guard:scope` applies |
+| `skills.mjs` | the skills of a task (PR-55, PR-56): `layers` reads the fence's `- Layers:` line (a UI fence without one has design, frontend, accessibility and motion; a method fix none) and adds the gates' layers (the security gate: a backend, api, database or reliability layer, risk 3 or a gate; the test gate: a frontend, architecture, backend, api, database or reliability layer, PR-57), `select` gives a role the files of those layers for the project's stack and modules (required and recommended files, and a conditional file when a topic the fence touches, a module or a deep task calls for it; the builder's and the reviewer's prompt list them, each skill's `DEVOS-NOTES.md` first), `select --json` prints the selection record, `list` shows every skill with the project's own (`local.json`), and `index` writes `devos/skills/INDEX.md` from `manifest.json` (`--check` for `guard:skills`) |
 | `verdict.mjs` | validates the review, applies PR-08 and the gates, records PHASES, picks the action. It reads any tool's output (its last JSON object: Claude Code's result, Cursor's last stream event, Codex's and Gemini's normalised object) and `.devos/reviewer-run.env` (the tool and its exit code, written by the reviewer step): a run that exited 0 with a finished result never counts as a limit, and a tool with no structured answer has its verdict read from the complete review file (PR-54) |
 | `limits.mjs` | limit patterns (read on the last 4000 characters of each output only, PR-54), reset parsing, `earliestNotBefore`, run cost for every tool |
 | `usage.mjs` | the usage record (PR-52): `record` adds one line per agent run to `.devos/usage/pending.jsonl` (stage, task, tool, model, input, output, cache-read and cache-write tokens, the tool's own cost, seconds); `flush` moves the lines to `docs/usage/<task>.jsonl` in the runner's commit; `report --write` rebuilds `docs/USAGE.md`, the totals by model, stage and task, priced from the tool's own cost or `devos/prices.json`. Every builder run is recorded by `agent-watchdog.sh` (`DEVOS_USAGE_STAGE`), every reviewer, intake and revise run right after its call; the gate doctor's and the supervisor's runs go on their run summary only (`--summary`). A record never fails a run |
 | `doctor.mjs` | the gate doctor's facts, rules and comment |
 | `setup-check.mjs` · `setup-issue.mjs` | settings by name; the setup issue and resumptions (PR-27). An item applies only to what the project uses: a module it chose at `devos init` (`chosen:`, from `devos/answers.json`) or a fence names, a tool an agent runs on (PR-53) |
-| `loop.mjs` | the same cycle on your machine, with your logged-in CLIs: Cursor builds and Claude Code reviews, so it refuses a project that chose other agents (PR-53) |
+| `report.mjs` | the DEV_OS registry link and the step events (PR-61, the registry's event contract v1). `note` (in the `cycle` job) appends one event to `.devos/journal.jsonl` at each moment: `build` started and its end (pass, waiting on a usage limit, fail; a time slice that continues ends nothing), `checks`, `review` started and its end, `verdict` (pass, fail, waiting), `gate` (skipped before an automatic merge, waiting at a human gate or a halt) and `merge`; `note --failed` ends a step a runner failure left open as `fail`. The `report` job, the only job with `id-token: write` and one that runs no agent, downloads the journal, asks the registry to link the repository with GitHub's OIDC identity of the workflow (`link`: the registry's owner approves it once and the answer names the project's key; until then the events wait and are not sent), then sends each unsent event once, in order (`flush`). The job runs only when `DEVOS_REPORTING` is `on`, the developer's own answer at `devos init` (PR-62). No key or token is stored; nothing here reads a secret, code, a diff or a prompt; every command exits 0, so reporting never blocks a run |
+| `loop.mjs` | the same cycle on your machine, with your logged-in CLIs: Cursor builds and Claude Code reviews, so it refuses a project that chose other agents (PR-53); it sets `TASK` and `DEVOS_SCOPE_BASE` (the local base branch) for the guards (PR-58) |
 
 ## 5. Guards (`scripts/guards/`, run by `run-all.mjs` as the `guards` check)
 
@@ -166,18 +170,20 @@ workflow may start late.
 with a gate) · `naming` · `design` (tokens, no raw colours, logical properties) · `i18n` (identical
 catalogues) · `boundary` (no visitor data outside declared zones) · `literals` (no hard-coded contact
 or locale) · `data` (migrations, RLS, grants, server-only secret key, synthetic seed, pgTAP) ·
-`services` (R2 and Firebase rules) · `manual` (this file names every part of the automation) · `config` (the generated configuration is current) · `design-spec` (every open UI fence has a design specification whose states match its `- Screens:` line and whose criteria are rows of `docs/design/UI_ACCEPTANCE.md`, PR-50) · `skills` (every design skill in `devos/skills/` is listed in its manifest, pinned to a full commit, licensed for its use with its licence and notices beside it, and unchanged, PR-51).
+`services` (R2 and Firebase rules) · `manual` (this file names every part of the automation) · `config` (the generated configuration is current) · `design-spec` (every open UI fence has a design specification whose states match its `- Screens:` line and whose criteria are rows of `docs/design/UI_ACCEPTANCE.md`, PR-50) · `skills` (every skill in `devos/skills/` is listed in its manifest, pinned to a full commit, licensed for its use with its licence and notices beside it, and unchanged, PR-51; mapped to its layers, stacks and roles, with a trust review that says it runs no code and fetches nothing, and `INDEX.md` current, PR-55; every read's priority and condition valid, its topics in the manifest's vocabulary, and an entry's notes written by DEV_OS, PR-56, PR-57) · `fences` (the fence of the task this run builds passes `fence-check.mjs`; N/A without `TASK`, PR-58) · `imports` (code outside a feature module of `structure.modules` imports it only through its public entry: JavaScript and TypeScript with `structure.aliases` and tsconfig.json or jsconfig.json `paths`, Python, Go and Dart; files in `structure.exempt`, the tests, may reach inside; a module folder that exists has its public entry; N/A while no module is declared, PR-58) · `scope` (the task branch against `origin/<base>`, plus the working tree, changes only the fence's `- Paths:`, its report, `docs/SESSION_CONTEXT.md`, `docs/DEVELOPMENT_JOURNAL.md` and a lockfile beside a listed manifest; paths no builder may change and `docs/PHASES.md` are left to the surface guard and the runner; N/A without `TASK` or a Paths line, PR-58).
 
 ## 6. Prompts, schemas, rules
 
 `devos/prompts/`: `builder.md`, `reviewer.md`, `intake.md`, `method.md`, `revise.md`, `doctor.md`, `supervisor.md`,
 `blueprint.md` (`devos init`'s blueprint: the `/devos-new-project` flow, headless).
 `devos/schemas/`: verdict, intake (also revise and method), doctor, supervisor.
-`docs/method/DESIGN_METHOD.md`: the UI/UX gate — the design contract, the lifecycle, the design specification, the acceptance gate and the resource catalogue (PR-50); the evidence checks, automated failures and design findings, and the design skills (PR-51).
-`devos/skills/`: the pinned design skills the agents read, `README.md` (who reads what) and `manifest.json` (source, commit, licence, obligations and hash of each; `local.json` for a project's own) (PR-51).
+`docs/method/DESIGN_METHOD.md`: the UI/UX gate — the design contract, the lifecycle, the design specification, the acceptance gate and the resource catalogue (PR-50); the evidence checks, automated failures and design findings, and the design skills (PR-51); the reference library, the developer's references (`docs/design/REFERENCES.md`, screenshots in `docs/design/references/`), a direction of the project's own and a redesign by change request (PR-59); images and PDFs at full quality, named for what they hold (PR-60).
+`devos/skills/`: the pinned skills the agents read, `README.md` (how a task gets its skills), `INDEX.md` (the discovery reference: layers, who reads what and when, licences and trust; generated) and `manifest.json` (the layers and topics vocabularies; source, commit, licence, obligations, layers, stacks, modules, trust, audit notes, reads with their priority and condition, and hash of each; `local.json` for a project's own) (PR-51, PR-55, PR-56, PR-57).
 
 `.gitattributes` merges `docs/DEVELOPMENT_JOURNAL.md` by union.
 
+Every fence carries a header line `- Layers: <layer> · <layer>` naming the layers it touches; `skills.mjs` gives the builder and the reviewer the skills of those layers (PR-55). A fence may add `- Topics: <topic> · <topic>` for a topic its text does not name; a server-side layer or a deep task always adds the security layer (the security gate, PR-56), and a code layer the testing layer (the test gate, PR-57).
+Every fence also carries `- Paths: \`<glob>\` · …`, every file and folder the task may change; `guard:scope` holds the task to it, and `fence-check.mjs` checks the fence before a builder runs it (PR-58).
 A UI fence carries a header line `- Screens: \`<name> <path>[ click|hover|focus <selector>]\` · …` naming every page, state and interaction to capture. `screens.mjs` reads that line; without it, `devos.config.json` `screens.pages` is used.
 
 | Surface | Files |
@@ -215,7 +221,8 @@ A UI fence carries a header line `- Screens: \`<name> <path>[ click|hover|focus 
 - **Run scratch** (`.devos/`, never committed, kept as the run's artifact): prompts, agent output,
   `ci-results.json`, `logs/`, `evidence.md`, `screens/` (`motion.json` plus settled, filmstrip and reduced-motion PNGs), `*.env` (module services), `limits/`,
   `accounts.md`, `usage/` (usage lines not yet committed), `setup.md`, `setup-result.json`, `progress-issue` / `progress-comment` (the live
-  progress comment), `supervisor/` (facts, incidents, the AI diagnosis).
+  progress comment), `supervisor/` (facts, incidents, the AI diagnosis), `journal.jsonl`, `report-state.json` and
+  `link.json` (the registry events, their run and sequence, and the link's answer, PR-61).
 
 ## 8. Settings
 
@@ -247,16 +254,31 @@ A UI fence carries a header line `- Screens: \`<name> <path>[ click|hover|focus 
   | `DEVOS_GEMINI_ACCOUNT` | **1** · 2 | the Gemini account a run starts with (secrets `GEMINI_API_KEY`, `GEMINI_API_KEY_2`) | PR-45 |
   | `DEVOS_SUPERVISOR` | **on** · off | off stops the supervisor only (the cycle keeps running) | §4 |
   | `DEVOS_ACCOUNT_SWITCH` | **auto** · off | auto: at a usage limit the run continues on the other account; off: only the chosen one (shared by every agent tool) | SETUP §15 |
+  | `DEVOS_REVIEWER_MODEL` | a model id · **unset** | the reviewer's model, same tool (deep reviews, planning, revisions); unset: `agents.reviewer` | PR-63 |
+  | `DEVOS_REVIEWER_LIGHT_MODEL` | a model id · **unset** | the light reviewer's model, same tool as the reviewer when the project has no light reviewer; unset: `agents.reviewer_light` | PR-63 |
+  | `DEVOS_BUILDER_MODEL` | a model id · **unset** | the default builder's model, same tool; a fence that names another pool builder keeps that builder's model | PR-63 |
+  | `DEVOS_REPORTING` | on · **off (not set)** | on: the `report` job links the project to the DEV_OS registry and sends its events; `devos init` sets it only when the developer answers yes; off or not set, nothing is sent | PR-61, PR-62 |
 
   Accounts, in practice: nothing set = both accounts on, starting with 1 · only account 2 =
   `DEVOS_CURSOR_ACCOUNT`/`DEVOS_CLAUDE_ACCOUNT` = 2 and `DEVOS_ACCOUNT_SWITCH` = off · for a single
   run, the `cursor_account` / `claude_account` choices in devos-cycle's run form. A second account
-  exists only if its `_2` secret is set.
+  exists only if its `_2` secret is set; `devos init` and the guided page offer it as an optional key.
+
+  Models, in practice: `devos.config.json` `agents` is the configured record; a model variable changes the
+  next run without a commit, and removing it goes back to the configured model. Several models per role
+  (PR-64): an agent in `devos/project.json` `agents` may list `fallback_models`, up to 4 model ids of its own
+  tool. A run tries its model on each account, then the next model; a limit moves on, a model the account cannot
+  use is skipped at once, and the run waits for the earliest reset only when no model can run. A model variable
+  replaces the first model only. `devos models` shows the
+  three roles and sets or removes the variables (`devos models set <reviewer|light|builder> <model>`,
+  `devos models reset <role>`). The id is checked as a model id only; the tool reports a model it cannot
+  run when the run starts.
 - **`devos.config.json`:** generated — edit `devos/project.json`; engine defaults in `devos/engine.defaults.json`. `max_attempts`; `builder` (model family, effort by risk); `reviewer`
-  (models and efforts by risk and gate, `modes.light/deep`, `deep_paths`, intake and method efforts; its Claude model ids apply only to a project without `agents`, PR-53); `agents` (reviewer, reviewer_light, pool, policy; without reviewer_light the reviewer reviews every task, PR-53; any of Cursor, Claude Code, Codex and Gemini may take either role (PR-45); a usage limit switches only to the same tool's other account, and with none left the attempt waits for the reset: no other agent or model takes over, PR-53; `devos init` writes them from the developer's choices, and the setup items `cursor`, `claude`, `codex` and `gemini` apply only when an agent uses that tool, PR-44);
-  `required_checks` / `optional_checks`; `stack` (the toolchain, its manifest and the commands of its checks, written by `devos init`, PR-48, and `scaffold`, the recipe fence T01 follows, PR-49); `screens` (`pages`, `filmstrip_ms`, `settle_max_ms`; a fence `- Screens:` line overrides `pages`); `surfaces` (builder, builder_method, reviewer, intake,
+  (models and efforts by risk and gate, `modes.light/deep`, `deep_paths`, intake and method efforts; its Claude model ids apply only to a project without `agents`, PR-53); `agents` (reviewer, reviewer_light, pool, policy; without reviewer_light the reviewer reviews every task, PR-53; any of Cursor, Claude Code, Codex and Gemini may take either role (PR-45); a usage limit switches to the same tool's other account, then to the agent's next model in its `fallback_models` (up to 4 model ids of its own tool, PR-64), and with none left the attempt waits for the earliest reset: no other agent takes over, PR-53; `devos init` writes them from the developer's choices, and the setup items `cursor`, `claude`, `codex` and `gemini` apply only when an agent uses that tool, PR-44);
+  `required_checks` / `optional_checks`; `stack` (the toolchain, its manifest and the commands of its checks, written by `devos init`, PR-48, and `scaffold`, the recipe fence T01 follows, PR-49, with `scaffold.modules`, the stack's module convention, PR-58); `structure` (the product's feature modules: `modules`, each with its `dir` and `public` entries, `aliases` and `exempt`, written by the blueprint, PR-58); `screens` (`pages`, `filmstrip_ms`, `settle_max_ms`; a fence `- Screens:` line overrides `pages`); `surfaces` (builder, builder_method, reviewer, intake,
   revise); `resume` (inline wait, relay, back-off, `stall_wait_minutes`); `modules` (supabase, r2, firebase); `heavy`; `retry_build_on`;
-  `builder.max_time_slices` (4) and `builder.idle_stop_minutes` (30) for the watchdog; `supervisor`
+  `builder.max_time_slices` (4) and `builder.idle_stop_minutes` (30) for the watchdog; `registry` (`url`: the DEV_OS
+  registry's address and the audience of the OIDC token, PR-61; it is used only when `DEVOS_REPORTING` is `on`, PR-62); `supervisor`
   (`model`, `max_auto_per_key`, `max_ai_per_day`, `idle_minutes`, `overdue_park_minutes`, issue title and label).
 - **Commands** (owners, members, collaborators only): `/devos intake [resume]`, `/devos revise …`,
   `/devos doctor`, `/devos go`, `/devos setup`, `/devos approve <id>`, `/devos reject <id>` (on the
@@ -267,7 +289,7 @@ A UI fence carries a header line `- Screens: \`<name> <path>[ click|hover|focus 
 
 | Symptom | What the automation does | What you do |
 |---|---|---|
-| Usage limit (any agent) | switches to the same tool's other account; if both are out, parks (no other agent or model takes over, PR-53), waits (relayed by `devos-wait`) and resumes after the first reset | nothing; to resume at once, run `devos-resume` by hand |
+| Usage limit (any agent) | switches to the same tool's other account, then to the agent's next model (`fallback_models`, PR-64); a model the account cannot use is skipped at once; when no slot can run, parks (no other agent takes over, PR-53), waits (relayed by `devos-wait`) and resumes after the earliest reset | nothing; to resume at once, run `devos-resume` by hand |
 | Missing secret, variable, Vercel value | the run does not start or the deploy stops; the setup issue lists it with steps | add it; the rest resumes |
 | Review finds an outside cause | `setup_wait`: no retry spent; steps in the verdict | add it, comment `/devos setup` |
 | A check fails on the code | the reviewer FAILs with a focus; the builder retries up to `max_attempts` | only at halt: `/devos revise` or a change request |

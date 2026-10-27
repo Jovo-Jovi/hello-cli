@@ -7,9 +7,12 @@ stores data, sign-in, languages, deploy target and repository visibility. Nobody
 run: where the answers and your research leave something open, choose the safer option and record it as an
 **assumption** in `docs/DEVOS_FIT.md`.
 
-When `devos/intake-docs/` exists, read every file in it before step 1. Where a document and the answers disagree,
-the answers win. Anything the product needs that neither gives goes into `docs/OPEN_QUESTIONS.md`, one question per
-line; when nothing is open, that file holds the single line `No open questions.`
+When `devos/intake-docs/` exists, read every file in it before step 1 (PDFs too), and every image in
+`docs/design/references/` (the developer's design references and brand assets, named for what they show; your Read
+tool shows an image). A file your tool cannot open (a format it does not read, or an image too large for it) is
+worked from its name and the developer's notes, and recorded as an assumption. Where a document and the answers
+disagree, the answers win. Anything the product needs that neither gives goes into `docs/OPEN_QUESTIONS.md`, one
+question per line; when nothing is open, that file holds the single line `No open questions.`
 
 **Keep it lean.** Build what the brief and the documents ask for — nothing cut, nothing added — with the simplest
 architecture that carries it. Every layer, module, service, dependency and abstraction you Include cites the brief
@@ -20,6 +23,16 @@ feature the brief asks for under **Later**, built only when the developer asks f
 `full`, the phases build every feature the brief asks for, core flow first, and the last phase before launch makes
 the product ready for production: a security review, error tracking and logging, backups when data is stored, and
 the speed of the main pages.
+**Small tasks, short phases.** Plan the smallest sequence of tasks that each leave the product working. A task is
+one reviewable change a builder finishes in one run, or in two to four stages (`devos-fence-writing` §1: about 6
+steps, 12 files, 2 concerns and 12 Done-when items per run); split anything bigger into more tasks. A phase is a
+slice the developer can use when it ends. With `scope` `mvp`, the core flow fits in about 12 tasks after T01; a plan
+that needs more says in `docs/SCOPE.md` why each extra task is needed. The task that completes the core flow adds
+one end-to-end test of it (a browser test for a UI, a request test for an API, a run of the command for a CLI) to
+the stack's `test` command, so every later task proves the core flow still works.
+**Risk is earned:** 3 for sign-in and permissions, money, personal data, a schema change, the boundary, headers or a
+deploy setting; 1 for copy, documents and one-line fixes; 2 for the rest. A risk-3 task gets the deep review and
+waits for the developer, so mark one only for one of those reasons.
 
 Work in this order.
 
@@ -46,8 +59,13 @@ Work in this order.
    the profile needs, `DESIGN_SYSTEM.md`, `PHASES.md`, `SESSION_CONTEXT.md`, `DEVELOPMENT_JOURNAL.md` and
    `method/CARRY_FORWARDS.md` (empty). When `devos/project.json` `ui` is `true`, `DESIGN_SYSTEM.md` is the design
    contract of `docs/method/DESIGN_METHOD.md` §1: write every part that section lists, including a decision (adopt,
-   optional or reject, with the reason) for each resource of its §5, and also write `docs/design/UI_ACCEPTANCE.md`.
-   Choose the visual direction with the design skills `devos/skills/README.md` gives the blueprint.
+   optional or reject, with the reason) for each resource of its §5.1 that fits the stack, and also write
+   `docs/design/UI_ACCEPTANCE.md` and `docs/design/REFERENCES.md` (§5.4: every image in `docs/design/references/`
+   by its file name, which you keep, every link the developer gave, then your library picks). Choose a direction of
+   the project's own (§5.5): the developer's references first, then the library rows for the project's type (§5.2)
+   and the Blueprint rows of `devos/skills/INDEX.md`, for each layer the product needs.
+   `DESIGN_SYSTEM.md` opens with its Direction and signature. Never copy a reference, and never reuse one look for
+   every project of a type.
    Two formats are read by guards and must be exact:
    - `docs/PHASES.md`: the header `| Task | Phase | Station | Name | Risk | Gate | Done | Verdict |`, a separator
      row, then one row per task — `T01` first, ids ascending, Risk 1, 2 or 3, Done `[ ]`, Verdict `—`.
@@ -56,7 +74,11 @@ Work in this order.
    Keep `docs/method/PRECEDENTS.md` as installed: its rows are the rules the runner implements. Rewrite PR-01 for
    this project's environment; new rulings continue from the live maximum.
 5. **Configure the surfaces.** Edit `devos/project.json` (never `devos.config.json`), then run
-   `node scripts/devos/config.mjs --write`. Fill `.cursor/rules/10-security-data.mdc` and
+   `node scripts/devos/config.mjs --write`. Its `structure.modules` holds one entry per feature area the phases
+   build, and no more, each `{ "dir": …, "public": [ … ] }` from `devos.config.json` `stack.scaffold.modules` with
+   `<name>` filled in (its `aliases`, when it has them, go to `structure.aliases`). Code outside a module imports it
+   only through its public entry (`guard:imports`, PR-58); the task that first builds a module creates its folder
+   and its public entry. Fill `.cursor/rules/10-security-data.mdc` and
    `.cursor/rules/30-vocabulary.mdc`. Write `.cursor/mcp.example.json` and `devos/ci/mcp.ci.json` from step 3, and
    `CLAUDE.md` from the handbook's §15.1 template. Write the `devos:boundary` line in `docs/BOUNDARY_MODEL.md`
    (PR-19). With the backend module, plan T01 or the first J4 task to create `supabase/`.
@@ -69,8 +91,16 @@ Work in this order.
    `true`, it also adds `@playwright/test` and `@axe-core/playwright` as dev dependencies, the tools of the
    runner's UI evidence (`docs/method/DESIGN_METHOD.md` §4). Its Done-when
    is `node scripts/devos/run-checks.mjs --strict` exiting 0. T01 is not a UI fence: it carries no `- Screens:` line.
-   Every later fence that builds a screen carries one and a `### Design specification` (`docs/method/DESIGN_METHOD.md`
-   §3).
+   Every fence carries `- Layers: <layer> · <layer>` in its header: the layers of `devos/skills/INDEX.md` the task touches (`design`, `motion`, `frontend`, `accessibility`, `architecture`, `backend`, `api`, `database`, `security`, `reliability`, `testing`, `ops`); T01's are usually `ops · testing`. The runner gives the builder and the reviewer the skills of those layers, and a server-side or deep task always the security layer and a code task the testing layer (PR-55, PR-56, PR-57).
+   Every fence also carries the builder line `- Builder: <an id of devos.config.json agents.pool> · Effort:
+   <low|medium|high|xhigh> · Fast: <yes|no>` (T01: `high`, `no`) and `- Paths: \`<glob>\` · …`: every file and
+   folder the task may change, each in backticks (T01's are the scaffold's: `*` for the files at the root, and its
+   folders such as `src/**`, `public/**` and the test folders). `guard:scope` fails a change outside them; the report,
+   `docs/SESSION_CONTEXT.md`, `docs/DEVELOPMENT_JOURNAL.md` and a lockfile beside a listed manifest are always
+   allowed. Before you finish, run `node scripts/devos/fence-check.mjs docs/fences/T01.md` and fix every finding
+   (PR-58).
+   Every later fence that builds a screen carries a `- Screens:` line and a `### Design specification`
+   (`docs/method/DESIGN_METHOD.md` §3).
 7. **End with a summary** as your final message: the profile, the ODs the developer signs by approving, your
    assumptions, and the setup steps that change for this project.
 

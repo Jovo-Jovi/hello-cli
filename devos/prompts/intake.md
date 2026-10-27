@@ -33,6 +33,8 @@ Exactly one of three outcomes, then the structured answer the output schema requ
    {{BUILDER_POOL}}
    Rehearse it against the current tree: every path, script and component name it cites must exist
    or be created by its own steps.
+   Every fence you write carries `- Layers: <layer> · <layer>` in its header: the layers of `devos/skills/INDEX.md` the task touches (`design`, `motion`, `frontend`, `accessibility`, `architecture`, `backend`, `api`, `database`, `security`, `reliability`, `testing`, `ops`). The runner gives the builder and the reviewer the skills of those layers, and a server-side or deep task always the security layer and a code task the testing layer (PR-55, PR-56, PR-57).
+   It also carries `- Paths: \`<glob>\` · …`: every file and folder the task may change, each in backticks (`guard:scope`, PR-58). Run `node scripts/devos/fence-check.mjs docs/fences/{{NEXT_ID}}.md` and fix every finding until it prints OK.
    A UI task's first fence carries `- Screens: \`<name> <path>[ click|hover|focus <selector>]\` · …` in its header, naming every page, state and interaction to capture. It also carries a `### Design specification` (`docs/method/DESIGN_METHOD.md` §3) whose `- States:` are exactly those names and whose `- Criteria:` are rows of `docs/design/UI_ACCEPTANCE.md`; `guard:design-spec` fails the run otherwise.
 6. Copy the request and your interpretation to `docs/requests/issue-{{ISSUE}}.md` (what was asked,
    what you decided, what you left out and why).
@@ -86,6 +88,18 @@ Law 151 of 2020) and state in the OD that the repository must be private before 
   (staff upload → public page shows the image; seeded collection → page lists it) before a gate.
 - In the OD, list the human's setup steps by name only (`SETUP.md` §13): accounts, bucket and public
   access, Firestore database, service accounts, GitHub secrets and variables, Vercel env.
+
+## Requests that change the look (PR-59, `docs/method/DESIGN_METHOD.md` §5.6)
+
+- A redesign, a new style or a new design reference is a change to the design OD. Write a DRAFT OD
+  that amends it by number, a new version of `docs/DESIGN_SYSTEM.md` (its Direction and signature,
+  §5.5, and the tokens that change) and the new rows of `docs/design/REFERENCES.md`: each link or
+  image the request gives, with what the product takes from it and what it leaves. A link to an
+  image in the issue is listed by its link; never fetch it.
+- Learn from a reference, never copy it (§5.5). A request to copy another product's look is answered
+  with a direction of the project's own that keeps what the human likes about it.
+- Plan the tokens and shared components first, then each area's screens, each a UI task with its
+  `- Screens:` line and design specification. The last task's gate lets the human sign off the new look.
 
 ## Settings outside the repository (PR-27)
 

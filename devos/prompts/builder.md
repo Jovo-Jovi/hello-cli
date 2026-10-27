@@ -17,10 +17,15 @@ Rules for this run:
   The runner commits your working tree when you finish.
 - Do not edit any path the fence's "Do NOT" list protects; the runner's surface guard fails the
   task if you do.
+- **Fence first, scope always (PR-58).** Before your first edit, run
+  `node scripts/devos/fence-check.mjs docs/fences/{{TASK}}.md`: a finding is the fence's defect, so
+  HALT and paste it in the report. Change only what the fence's `- Paths:` line names, plus your
+  report, `docs/SESSION_CONTEXT.md`, `docs/DEVELOPMENT_JOURNAL.md` and a lockfile beside a listed
+  manifest: `guard:scope` fails anything else. Reach another feature module only through its public
+  entry (`devos.config.json` `structure.modules`): `guard:imports` fails an import of its internals.
 - If the task changes anything visible, follow the `devos-compose-ui` skill: compose the approved
-  design in `docs/DESIGN_SYSTEM.md` and `docs/design/`, never improvise a look. Read the design skills
-  `devos/skills/README.md` gives the builder; `docs/DESIGN_SYSTEM.md` and the fence win over them.
-- **Method fix** (the fence has `- Surface: method`, PR-28): change only the method files the fence
+  design in `docs/DESIGN_SYSTEM.md` and `docs/design/`, never improvise a look.
+{{SKILLS_BLOCK}}- **Method fix** (the fence has `- Surface: method`, PR-28): change only the method files the fence
   names (workflows, runner scripts, guards, prompts, config), update `docs/method/AUTOMATION.md` where
   the change lands, and add the precedent row it describes.
   Never touch product code. Prove the fix with the reproduction the fence asks for. Every other task:
