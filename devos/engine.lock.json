@@ -1,6 +1,6 @@
 {
   "$comment": "Written by devos install and devos upgrade. Never edit by hand.",
-  "engine_version": "1.2.0",
+  "engine_version": "1.2.1",
   "files": [
     {
       "path": ".claude/agents/design-inspector.md",
@@ -120,11 +120,11 @@
     },
     {
       "path": ".github/workflows/devos-advance.yml",
-      "sha256": "bcb5bca5a27474b9ebc59c2c3e5b2583ea3059ebece8dcaedce9533d7c1b00de"
+      "sha256": "7c1a13709085c3abbe990c5dceb468c4ef9defce5cf369338a1552e001da770e"
     },
     {
       "path": ".github/workflows/devos-cycle.yml",
-      "sha256": "bf28857387a6cb3d49096a7594610818263b63f1029afadb8a479ac15742ba7e"
+      "sha256": "43405607c144b74ae3d5e28cb8bdad504d5cd5897d2886a2f410ecd90132a60b"
     },
     {
       "path": ".github/workflows/devos-deploy.yml",
@@ -976,7 +976,7 @@
     },
     {
       "path": "docs/method/AUTOMATION.md",
-      "sha256": "32bea7a4b82074bf819880d089850b4db8c0b74e56cd9aead1ea4fa966221350"
+      "sha256": "67846775d976cfb29f87befd0972dfb3e327c7bb899d421af1ef0797460b3355"
     },
     {
       "path": "docs/method/DESIGN_METHOD.md",
@@ -1076,7 +1076,7 @@
     },
     {
       "path": "scripts/devos/next-task.mjs",
-      "sha256": "a27871c99cfb3282652174bf547c1494d1f1c64c6f2d6509d3b092ee620a9d77"
+      "sha256": "310fb07c3ff79852bac12e2e2ebbee216a227da1978c75d0b495331c8a2d92d3"
     },
     {
       "path": "scripts/devos/plan-agent.sh",
